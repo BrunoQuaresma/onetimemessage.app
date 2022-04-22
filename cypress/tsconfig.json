@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom", "ES2015"],
+    "types": ["cypress"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["../app/*"]
+    }
+  },
+  "include": ["**/*.ts"]
+}
