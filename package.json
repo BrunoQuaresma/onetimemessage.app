@@ -25,7 +25,8 @@
     "faunadb": "^4.5.4",
     "framer-motion": "^6.3.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.4.1",
