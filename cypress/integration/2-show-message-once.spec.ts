@@ -10,7 +10,7 @@ describe("Shows a message only once", () => {
       cy.visit(`/m/${messageId}`);
       cy.contains(message.content);
       cy.reload();
-      cy.contains("404");
+      cy.contains("message has already been read");
     });
   });
 });
