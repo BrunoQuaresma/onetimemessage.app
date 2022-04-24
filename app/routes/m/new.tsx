@@ -12,6 +12,7 @@ import {
 import { ActionFunction, json, redirect } from "@remix-run/node";
 import { useSearchParams } from "@remix-run/react";
 import { FiCheck, FiCopy } from "react-icons/fi";
+import { WEBSITE_URL } from "~/constants";
 import { createMessage } from "~/models/message.server";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -29,7 +30,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function NewMessage() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  const copy = useClipboard(`https://onetimemessage.com/m/${id}`);
+  const copy = useClipboard(`${WEBSITE_URL}/m/${id}`);
 
   if (!id) {
     throw new Error(
@@ -61,7 +62,7 @@ export default function NewMessage() {
               whiteSpace="nowrap"
               overflowX="auto"
             >
-              https://onetimemessage.com/m/
+              {WEBSITE_URL}/m/
               <span data-testid="messageId">{id}</span>
             </Box>
             <Box p={2}>
@@ -77,21 +78,26 @@ export default function NewMessage() {
             </Box>
           </HStack>
 
-          <Box mt={4}>
+          <Box mt={4} fontSize="sm" color="gray.700">
+            Do you want to create another message?{" "}
             <Link fontWeight="medium" href="/">
               Create a new message
             </Link>
           </Box>
 
-          <Box as="footer" w="full" fontSize="sm" color="gray.600" mt={20} py={4}>
-              Made by{" "}
-              <Link
-                href="https://twitter.com/bruno__quaresma"
-                fontWeight="bold"
-              >
-                @bruno__quaresma
-              </Link>
-            </Box>
+          <Box
+            as="footer"
+            w="full"
+            fontSize="sm"
+            color="gray.600"
+            mt={20}
+            py={4}
+          >
+            Made by{" "}
+            <Link href="https://twitter.com/bruno__quaresma" fontWeight="bold">
+              @bruno__quaresma
+            </Link>
+          </Box>
         </Box>
       </Center>
     </Container>
