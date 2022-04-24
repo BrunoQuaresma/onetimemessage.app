@@ -55,7 +55,13 @@ export const TwoColumnsLayout: React.FC = ({ children }) => {
 
             <Feature icon={FiGithub} title="Open source">
               You can check our code and see if it address your security
-              concerns. <Link fontWeight="bold">Checkout our repo.</Link>
+              concerns.{" "}
+              <Link
+                fontWeight="bold"
+                href="https://github.com/BrunoQuaresma/onetimemessage.app"
+              >
+                Checkout our repo.
+              </Link>
             </Feature>
 
             <Feature icon={FiShield} title="Privacy">
