@@ -19,6 +19,7 @@ export const meta: MetaFunction = () => ({
   description:
     "The open source one time message app that cares about your privacy and security.",
   viewport: "width=device-width,initial-scale=1",
+  "og:image": "https://onetimemessage.app/cover.png",
 });
 
 interface DocumentProps {
