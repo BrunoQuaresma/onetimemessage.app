@@ -49,8 +49,8 @@ export const TwoColumnsLayout: React.FC = ({ children }) => {
         <Box w="full" maxW={{ md: "xs" }}>
           <VStack spacing={10}>
             <Feature icon={FiEye} title="One time read">
-              After someone read your message, it will be deleted from our
-              database. Good for share passwords and secrets.
+              After someone has read your message, it will be deleted from our
+              database. Good for sharing passwords and secrets.
             </Feature>
 
             <Feature icon={FiGithub} title="Open source">
