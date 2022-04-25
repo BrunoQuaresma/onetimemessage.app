@@ -9,9 +9,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { MetaFunction } from "@remix-run/node"; // Depends on the runtime you choose
+import { LinksFunction, MetaFunction } from "@remix-run/node"; // Depends on the runtime you choose
 
 import { ServerStyleContext, ClientStyleContext } from "./context";
+import { WEBSITE_URL } from "./constants";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -19,8 +20,19 @@ export const meta: MetaFunction = () => ({
   description:
     "The open source one time message app that cares about your privacy and security.",
   viewport: "width=device-width,initial-scale=1",
+  "og:title": "Share Passwords and Secrets with The One Time Message Web App",
+  "og:description":
+    "The open source one time message app that cares about your privacy and security.",
   "og:image": "https://onetimemessage.app/cover.png",
+  "og:type": "website",
+  "og:url": WEBSITE_URL,
+  "twitter:card": "summary_large_image",
+  "twitter:creator": "@bruno__quaresma",
 });
+
+export const links: LinksFunction = () => [
+  { rel: "canonical", href: WEBSITE_URL },
+];
 
 interface DocumentProps {
   children: React.ReactNode;
