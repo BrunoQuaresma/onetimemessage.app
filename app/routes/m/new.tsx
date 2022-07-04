@@ -9,33 +9,39 @@ import {
   useClipboard,
   Link,
 } from "@chakra-ui/react";
-import { ActionFunction, json, redirect } from "@remix-run/node";
-import { useSearchParams } from "@remix-run/react";
+import { ActionFunction, json } from "@remix-run/node";
+import { useActionData } from "@remix-run/react";
 import { FiCheck, FiCopy } from "react-icons/fi";
 import { WEBSITE_URL } from "~/constants";
 import { createMessage } from "~/models/message.server";
 
 export const action: ActionFunction = async ({ request }) => {
   const body = await request.formData();
-  const content = body.get("content")?.toString();
+  const encryptedMessage = body.get("encryptedMessage")?.toString();
+  const key = body.get("key")?.toString();
 
-  if (!content) {
+  if (!encryptedMessage || !key) {
     return json({ success: false });
   }
 
-  const messageId = await createMessage(content);
-  return redirect(`/m/new?id=${messageId}`);
+  const messageId = await createMessage(encryptedMessage);
+
+  return json({ messageId, key });
 };
 
 export default function NewMessage() {
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get("id");
-  const copy = useClipboard(`${WEBSITE_URL}/m/${id}`);
+  const data = useActionData<{ messageId: string; key: string }>();
+  const id = data?.messageId;
+  const key = data?.key;
+  const messageLink = `${WEBSITE_URL}/m/${id}#${key}`;
+  const copy = useClipboard(messageLink);
 
   if (!id) {
-    throw new Error(
-      "Error on create a new message. messageId not found in the URL."
-    );
+    throw new Error("Error on create a new message, messageId not found.");
+  }
+
+  if (!key) {
+    throw new Error("No key found.");
   }
 
   return (
@@ -50,7 +56,7 @@ export default function NewMessage() {
             spacing={0}
             borderWidth={1}
             mt={4}
-            maxW={{ base: 360, md: "100%" }}
+            maxW={{ base: 360, md: 480 }}
           >
             <Box
               py={2}
@@ -61,9 +67,9 @@ export default function NewMessage() {
               color="gray.700"
               whiteSpace="nowrap"
               overflowX="auto"
+              data-testid="link"
             >
-              {WEBSITE_URL}/m/
-              <span data-testid="messageId">{id}</span>
+              {messageLink}
             </Box>
             <Box p={2}>
               <IconButton
@@ -80,7 +86,7 @@ export default function NewMessage() {
 
           <Box mt={4} fontSize="sm" color="gray.700">
             Do you want to create another message?{" "}
-            <Link fontWeight="medium" href="/">
+            <Link fontWeight="medium" href="/" color="blue.600">
               Create a new message
             </Link>
           </Box>

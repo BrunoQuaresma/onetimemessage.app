@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
-import { FiEye, FiGithub, FiShield, FiLock, FiKey } from "react-icons/fi";
+import { FiEye, FiGithub, FiShield, FiLock } from "react-icons/fi";
 
 const Feature: React.FC<{ title: string; icon: IconType; soon?: boolean }> = ({
   title,
@@ -64,16 +64,12 @@ export const TwoColumnsLayout: React.FC = ({ children }) => {
               </Link>
             </Feature>
 
-            <Feature icon={FiShield} title="Privacy">
-              Free of user tracking like analytics and social ads.
-            </Feature>
-
             <Feature icon={FiLock} title=" Encrypted data">
-              We use AES encryption with a 4096-bit key.
+              We use AES encryption with a secret key provided by you.
             </Feature>
 
-            <Feature icon={FiKey} title="Custom key" soon>
-              If you don't want to use our encryption key, you can provide one.
+            <Feature icon={FiShield} title="100% Privacy">
+              Free of user tracking like analytics and social ads.
             </Feature>
 
             <Box w="full" fontSize="sm" color="gray.600">

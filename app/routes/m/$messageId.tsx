@@ -8,8 +8,9 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
-import { useFetcher, useParams } from "@remix-run/react";
+import { useFetcher, useLocation, useParams } from "@remix-run/react";
 import { useEffect } from "react";
+import { decrypt } from "~/encryption";
 import { TwoColumnsLayout } from "~/layouts/TwoColumnsLayout";
 
 export function CatchBoundary() {
@@ -54,7 +55,12 @@ export function CatchBoundary() {
 export default function Message() {
   const message = useFetcher<{ content: string }>();
   const params = useParams();
+  const { hash } = useLocation();
   const messageId = params["messageId"];
+  const decryptedMessage =
+    message.data && hash
+      ? decrypt(message.data.content, hash.replace("#", ""))
+      : "";
 
   if (!messageId) {
     throw new Error("Param messageId not found");
@@ -83,7 +89,7 @@ export default function Message() {
         Message
       </Text>
       <Text fontSize="2xl" mt={4}>
-        {message.data.content}
+        {decryptedMessage}
       </Text>
       <Box mt={20} fontSize="sm">
         Do you want to create a new one time message?{" "}

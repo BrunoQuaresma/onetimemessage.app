@@ -11,7 +11,6 @@ import {
   Var,
 } from "faunadb";
 import { db, Doc } from "~/db.server";
-import { decrypt, encrypt } from "~/encryption.server";
 
 type MessageId = string;
 type Message = { content: string };
@@ -21,12 +20,14 @@ export async function createMessage(
   content: Message["content"]
 ): Promise<MessageId> {
   const messageDoc = await db.query<MessageDoc>(
-    Create(Collection("messages"), { data: { content: encrypt(content) } })
+    Create(Collection("messages"), { data: { content } })
   );
   return messageDoc.ref.id;
 }
 
-export async function getMessageContentById(id: MessageId): Promise<string | undefined> {
+export async function getMessageContentById(
+  id: MessageId
+): Promise<string | undefined> {
   try {
     const [_, content] = await db.query<[any, Message["content"]]>(
       Let(
@@ -37,13 +38,13 @@ export async function getMessageContentById(id: MessageId): Promise<string | und
         Do([Delete(Select("ref", Var("messageDoc"))), Var("messageContent")])
       )
     );
-  
-    return decrypt(content);
-  } catch(error) {
-    if(error instanceof errors.NotFound) {
-      return undefined
+
+    return content;
+  } catch (error) {
+    if (error instanceof errors.NotFound) {
+      return undefined;
     }
 
-    throw error
+    throw error;
   }
 }
